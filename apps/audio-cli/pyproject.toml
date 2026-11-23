@@ -1,0 +1,26 @@
+[project]
+name = "superscore-audio-cli"
+version = "0.1.0"
+description = "SuperScore audio adapter CLI"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "librosa>=0.10,<0.12",
+    "numpy<2",
+    "pretty_midi>=0.2.10,<0.3",
+    "torch==2.2.2",
+    "torchaudio==2.2.2",
+    "demucs>=4,<5",
+    "packaging>=24,<26",
+    "setuptools>=80,<83",
+    "soundfile>=0.13,<1",
+]
+
+[project.scripts]
+superscore-audio-cli = "superscore_audio_cli.main:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/superscore_audio_cli"]
