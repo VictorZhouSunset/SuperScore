@@ -1,0 +1,42 @@
+# Node / pnpm
+node_modules/
+.pnpm-store/
+dist/
+
+# Rust / Tauri
+target/
+src-tauri/target/
+*.pdb
+
+# Python / uv
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+
+# Build / caches / logs
+.cache/
+.tmp/
+*.log
+
+# Runtime project data
+data_root/
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Local-only publication exclusions
+.venv-*/
+artifacts/
+.cookie
+*.cookies.txt
+cookies.txt
+.env
+.env.*
+!.env.example
+.codex/
+apps/desktop/src-tauri/gen/
