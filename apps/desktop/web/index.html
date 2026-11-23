@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SuperScore</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-bg"></div>
+    <main class="shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">SuperScore</p>
+          <h1>Project Workspace</h1>
+        </div>
+        <button
+          id="openSettingsBtn"
+          class="icon-btn"
+          aria-label="Open settings"
+          title="Settings"
+          data-testid="open-settings-root"
+        >
+          <span aria-hidden="true">&#9881;</span>
+        </button>
+      </header>
+
+      <section id="rootView" class="view">
+        <div class="panel">
+          <div class="row between">
+            <div>
+              <p class="eyebrow">Project Root Folder</p>
+              <p id="dataRootDisplay" class="muted">Loading...</p>
+            </div>
+            <button id="refreshProjectsBtn" class="btn secondary">Refresh Projects</button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <p class="eyebrow">Create Project</p>
+          <div class="inline-form">
+            <input id="newProjectName" type="text" placeholder="Project name (e.g. MySong)" />
+            <button id="createProjectBtn" class="btn">Create</button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="row between">
+            <p class="eyebrow">Projects</p>
+            <span id="projectCount" class="muted"></span>
+          </div>
+          <div id="projectGrid" class="project-grid" data-testid="project-grid"></div>
+        </div>
+      </section>
+
+      <section id="projectView" class="view hidden">
+        <div class="panel">
+          <div class="row between">
+            <div class="row gap-sm">
+              <button id="backToRootBtn" class="btn secondary">Back</button>
+              <div>
+                <p class="eyebrow">Current Project</p>
+                <h2 id="projectTitle">-</h2>
+              </div>
+            </div>
+            <button
+              id="openSettingsBtnProject"
+              class="icon-btn"
+              aria-label="Open settings"
+              title="Settings"
+              data-testid="open-settings-project"
+            >
+              <span aria-hidden="true">&#9881;</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <p class="eyebrow">Import Audio</p>
+          <label for="youtubeUrl">YouTube URL</label>
+          <input id="youtubeUrl" type="text" placeholder="https://www.youtube.com/watch?v=..." />
+          <div class="row wrap">
+            <button id="importYoutubeBtn" class="btn">Import YouTube</button>
+            <button id="runYoutubePipelineBtn" class="btn accent">Import + Run Pipeline</button>
+          </div>
+
+          <label for="localPath">Local file path</label>
+          <input id="localPath" type="text" placeholder="D:\\music\\song.wav" />
+          <button id="importLocalBtn" class="btn">Import Local</button>
+        </div>
+
+        <div class="panel">
+          <p class="eyebrow">Pipeline Options</p>
+          <div class="options-grid">
+            <label><input id="allowPartialSuccess" type="checkbox" checked /> Allow partial success</label>
+            <label><input id="transcribeGuitar" type="checkbox" checked /> Transcribe guitar</label>
+            <label><input id="transcribeOther" type="checkbox" /> Transcribe other</label>
+          </div>
+          <div class="row wrap">
+            <button id="startPipelineBtn" class="btn accent" data-testid="start-pipeline">Start Pipeline</button>
+            <button id="cancelPipelineBtn" class="btn danger">Cancel Job</button>
+            <span id="jobStatus" class="muted" data-testid="job-status">No active job</span>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="row between">
+            <p class="eyebrow">Artifacts</p>
+            <button id="refreshArtifactsBtn" class="btn secondary">Refresh Artifacts</button>
+          </div>
+          <ul id="artifactList" class="artifact-list" data-testid="artifact-list"></ul>
+        </div>
+
+        <div class="panel">
+          <p class="eyebrow">Logs</p>
+          <pre id="output" data-testid="output-log"></pre>
+        </div>
+      </section>
+    </main>
+
+    <div id="settingsModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+      <div class="modal-card">
+        <div class="row between">
+          <h3 id="settingsTitle">Settings</h3>
+          <button id="closeSettingsBtn" class="icon-btn" aria-label="Close settings">&times;</button>
+        </div>
+
+        <label for="dataRoot">Data root</label>
+        <input id="dataRoot" type="text" placeholder="D:\\SuperScore\\data_root" />
+
+        <label
+          ><input id="realMode" type="checkbox" data-testid="real-mode-toggle" /> Real execution mode
+          (disable placeholders)</label
+        >
+
+        <p class="eyebrow">Tool Paths</p>
+        <label for="audioCliPath">Audio CLI</label>
+        <input id="audioCliPath" type="text" placeholder="superscore-audio-cli" />
+
+        <label for="demucsPath">Demucs</label>
+        <input id="demucsPath" type="text" placeholder="demucs" />
+
+        <label for="omnizartPath">Omnizart</label>
+        <input id="omnizartPath" type="text" placeholder="omnizart" />
+
+        <label for="basicPitchPath">Basic Pitch</label>
+        <input id="basicPitchPath" type="text" placeholder="basic-pitch" />
+
+        <label for="musescorePath">MuseScore</label>
+        <input id="musescorePath" type="text" placeholder="musescore" />
+
+        <label for="ytdlpPath">yt-dlp</label>
+        <input id="ytdlpPath" type="text" placeholder="yt-dlp" />
+
+        <div class="row end gap-sm">
+          <button id="closeSettingsBtnFooter" class="btn secondary">Cancel</button>
+          <button id="saveSettingsBtn" class="btn accent">Save Settings</button>
+        </div>
+      </div>
+    </div>
+
+    <aside id="statusDrawer" class="status-drawer collapsed" aria-live="polite">
+      <button id="statusToggleBtn" class="status-chip" type="button" aria-expanded="false">
+        <strong>STATUS</strong>
+        <span id="statusHeadline">Waiting for app startup...</span>
+      </button>
+      <div class="status-panel">
+        <div class="row between">
+          <p class="eyebrow">Status Log</p>
+          <button id="statusClearBtn" class="btn secondary">Clear</button>
+        </div>
+        <pre id="statusOutput"></pre>
+      </div>
+    </aside>
+
+    <script type="module" src="main.js"></script>
+  </body>
+</html>
